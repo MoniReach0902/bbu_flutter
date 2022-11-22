@@ -1,6 +1,7 @@
 import 'package:example1/apis/api_manager.dart';
 import 'package:example1/model/req/login_req.dart';
 import 'package:example1/page/home_page.dart';
+import 'package:example1/screen/register_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:khmer_fonts/khmer_fonts.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -184,7 +185,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         fontSize: 17),
                   ),
                   TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context)=>RegisterScreen()));
+                      },
                       child: Text(
                         'បង្កើតគណនី',
                         style: TextStyle(
