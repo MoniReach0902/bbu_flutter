@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:example1/model/listile_icon.dart';
 import 'package:example1/screen/home_screen.dart';
 import 'package:example1/screen/login_screen.dart';
@@ -19,6 +20,9 @@ class _HomePageState extends State<HomePage> {
   ];
   PageController _pageController = PageController();
   final LocalStorage storage = new LocalStorage('mobile_token_app');
+
+  bool _change = false;
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -27,14 +31,24 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         backgroundColor: Colors.blueGrey,
         centerTitle: false,
-        title: const Text("XXXXX"),
+        title: Text("lang".tr()),
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 25),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children:  const [
-                Icon(Icons.language),
+              children: [
+                IconButton(
+                    onPressed: () {
+                      _change
+                          ? context.setLocale(Locale('en', 'EN'))
+                          : context.setLocale(Locale('km', 'KM'));
+
+                      setState(() {
+                        _change = !_change;
+                      });
+                    },
+                    icon: Icon(Icons.language)),
                 SizedBox(
                   width: 25,
                 ),
@@ -46,19 +60,20 @@ class _HomePageState extends State<HomePage> {
       ),
       drawer: Drawer(
         child: Container(
-          decoration: const BoxDecoration(
-            color: Colors.blueGrey
-          ),
+          decoration: const BoxDecoration(color: Colors.blueGrey),
           child: ListView(
             children: [
-               DrawerHeader(
-                decoration: BoxDecoration(
-                  color: Colors.blueGrey
-                ), child: Text(""),),
-              Divider(height: 5,color: Colors.white,),
+              DrawerHeader(
+                decoration: BoxDecoration(color: Colors.blueGrey),
+                child: Text(""),
+              ),
+              Divider(
+                height: 5,
+                color: Colors.white,
+              ),
               Column(
                 children: List.generate(listile.length, (index) {
-                  return Drawers(listile:listile[index]);
+                  return Drawers(listile: listile[index]);
                 }),
               )
             ],
@@ -87,7 +102,8 @@ class _HomePageState extends State<HomePage> {
       items: [
         BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
         BottomNavigationBarItem(icon: Icon(Icons.qr_code), label: "QR"),
-        BottomNavigationBarItem(icon: Icon(Icons.location_on), label: "Location"),
+        BottomNavigationBarItem(
+            icon: Icon(Icons.location_on), label: "Location"),
         BottomNavigationBarItem(icon: Icon(Icons.settings), label: "Setting"),
       ],
       unselectedItemColor: Colors.white,
@@ -96,9 +112,10 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: Colors.blueGrey,
       type: BottomNavigationBarType.fixed,
       onTap: (index) {
-        if(index==3){
+        if (index == 3) {
           storage.clear();
-          Navigator.of(context).push(MaterialPageRoute(builder: (context)=>LoginScreen()));
+          Navigator.of(context)
+              .push(MaterialPageRoute(builder: (context) => LoginScreen()));
         }
         setState(() {
           selected_page = index;

@@ -14,7 +14,7 @@ class _SplashScreenAppState extends State<SplashScreenApp> {
   @override
   Widget build(BuildContext context) {
     return  SplashScreen(
-        seconds: 5,
+        seconds: 2,
         navigateAfterSeconds: new LoginScreen(),
         image:  Image.network('https://bbu.edu.kh/assets/images/logo.png'),
         backgroundColor: Colors.blueGrey,

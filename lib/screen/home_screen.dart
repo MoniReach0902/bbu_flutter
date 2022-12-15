@@ -1,12 +1,51 @@
+import 'package:easy_localization/easy_localization.dart';
+import 'package:example1/apis/api_manager.dart';
 import 'package:example1/model/card_icon.dart';
+import 'package:example1/model/category/MenuList.dart';
 import 'package:example1/widget/card.dart';
 import 'package:flutter/material.dart';
+import 'package:khmer_fonts/khmer_fonts.dart';
+import 'package:localstorage/localstorage.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  bool isLoading =false;
+  List<MenuList> categories=[];
+
+
+
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getCategory();
+    // print(getCategory());
+
+  }
+  getCategory(){
+    setState(() {
+      this.isLoading=true;
+    });
+    ApiManager().getAllCategory().then((value) {
+      setState(() {
+        this.isLoading=false;
+        categories=value.data!.menuList!;
+      });
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
+
+
+
     return Container(
       decoration: BoxDecoration(color: Colors.blueGrey),
       child: SingleChildScrollView(
@@ -23,7 +62,7 @@ class HomeScreen extends StatelessWidget {
             const SizedBox(
               height: 30,
             ),
-            _grid(),
+            _grid("en_EN"),
             const SizedBox(height: 30),
             _row_slide(180, "XXXX"),
             const SizedBox(
@@ -101,7 +140,8 @@ class HomeScreen extends StatelessWidget {
   }
 
   //Grind
-  _grid() {
+  _grid(String lang) {
+    print(lang);
     return Container(
       width: double.infinity,
       height: 412,
@@ -118,15 +158,39 @@ class HomeScreen extends StatelessWidget {
                 crossAxisCount: 3,
                 mainAxisSpacing: 5,
                 crossAxisSpacing: 5,
-                children: List.generate(cardicon.length, (index) {
-                  return MyCards(cardIcon: cardicon[index]);
+                children: List.generate(categories.length, (index) {
+                  var category=categories[index];
+                  return Container(
+                    decoration: BoxDecoration(
+                      color: Colors.blueGrey,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          // Icon(
+                          //   cate
+                          //   color: Colors.white,
+                          //   size: 30,
+                          // ),
+                          SizedBox(height: 10,),
+                          Text(
+                            lang=="en_EN"? category.name!:category.nameKh!,
+                            style: TextStyle(fontSize: 15, color: Colors.white,fontFamily:KhmerFonts.content,
+                              package: 'khmer_fonts',),
+                          )
+                        ],
+                      ),
+                    ),
+                  );
                 }),
               ))
         ],
       ),
     );
-  } //end grid
-
+  }
+ //end grid
   _row(String text, String num) {
     //Row
     return Padding(
@@ -146,5 +210,4 @@ class HomeScreen extends StatelessWidget {
         ],
       ),
     );
-  } //  End Row
-}
+  } }

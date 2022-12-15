@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:example1/apis/api_manager.dart';
 import 'package:example1/model/req/login_req.dart';
 import 'package:example1/page/home_page.dart';
@@ -20,6 +21,8 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController _passwordController = new TextEditingController();
   bool hide =true;
   bool isLoading = false;
+  var phone='070902209';
+  var pass='12345678';
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +60,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             return "Please enter phone number";
                           }
                         },
-                        controller: _usernameController,
+                        controller: TextEditingController(text: '070902209'),
                         style: TextStyle(fontSize: 18),
                         decoration: InputDecoration(
                             hintText: ' @គណនីប្រើប្រាស់',
@@ -87,7 +90,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             return "Please enter phone number";
                           }
                         },
-                        controller: _passwordController,
+                        controller: TextEditingController(text: '12345678'),
                         obscureText: hide,
                         style: TextStyle(fontSize: 18),
                         decoration: InputDecoration(
@@ -138,10 +141,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     login();
                   },
                   child: Text(
-                    'ចូលប្រើប្រាស់',
+                    "login".tr(),
                     style: TextStyle(
-                        fontFamily: KhmerFonts.content,
-                        package: 'khmer_fonts',
+
                         fontSize: 16,
                         color: Colors.white,
                         fontWeight: FontWeight.bold),
@@ -213,8 +215,8 @@ class _LoginScreenState extends State<LoginScreen> {
       final LocalStorage storage = new LocalStorage('mobile_token_app');
 
       LoginReq req = LoginReq();
-      req.phoneNumber = phoneNumber;
-      req.password = password;
+      req.phoneNumber = phone;
+      req.password = pass;
       setState(() {
         this.isLoading=true;
       });
@@ -222,9 +224,10 @@ class _LoginScreenState extends State<LoginScreen> {
         //success
         setState(() {
           this.isLoading=false;
+          storage.setItem("data", value.toJson());
+          Navigator.of(context).push(MaterialPageRoute(builder: (context)=>HomePage()));
         });
-        storage.setItem("data", value.toJson());
-        Navigator.of(context).push(MaterialPageRoute(builder: (context)=>HomePage()));
+
 
 
       }).catchError((onError){

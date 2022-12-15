@@ -1,9 +1,24 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:example1/page/home_page.dart';
 import 'package:example1/screen/splash_screen.dart';
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(const MyApp());
+// void main() {
+//   runApp(const MyApp());
+// }
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
+
+  runApp(
+    EasyLocalization(
+        supportedLocales: [Locale('en', 'EN'), Locale('km', 'KM')],
+        path: 'assets/langs', // <-- change the path of the translation files
+        fallbackLocale: Locale('km', 'KM'),
+        child: MyApp()
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -17,6 +32,9 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
+      localizationsDelegates: context.localizationDelegates,
+      supportedLocales: context.supportedLocales,
+      locale: context.locale,
       home:  SplashScreenApp(),
     );
   }
