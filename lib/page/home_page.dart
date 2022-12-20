@@ -1,7 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:example1/model/listile_icon.dart';
+import 'package:example1/screen/chose_images.dart';
 import 'package:example1/screen/home_screen.dart';
 import 'package:example1/screen/login_screen.dart';
+import 'package:example1/screen/product_crud.dart';
 import 'package:example1/widget/drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:localstorage/localstorage.dart';
@@ -17,10 +20,11 @@ class _HomePageState extends State<HomePage> {
   int selected_page = 0;
   List<Widget> _listScreen = [
     HomeScreen(),
+    Products(),
+    ImagesUpload()
   ];
   PageController _pageController = PageController();
   final LocalStorage storage = new LocalStorage('mobile_token_app');
-
   bool _change = false;
 
   @override
@@ -101,7 +105,7 @@ class _HomePageState extends State<HomePage> {
     return BottomNavigationBar(
       items: [
         BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-        BottomNavigationBarItem(icon: Icon(Icons.qr_code), label: "QR"),
+        BottomNavigationBarItem(icon: Icon(Icons.qr_code), label: "Product"),
         BottomNavigationBarItem(
             icon: Icon(Icons.location_on), label: "Location"),
         BottomNavigationBarItem(icon: Icon(Icons.settings), label: "Setting"),
