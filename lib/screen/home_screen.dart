@@ -15,11 +15,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  bool isLoading =false;
-  List<MenuList> categories=[];
-
-
-
+  bool isLoading = false;
+  List<MenuList> categories = [];
 
   @override
   void initState() {
@@ -27,23 +24,22 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     getCategory();
     // print(getCategory());
-
   }
-  getCategory(){
+
+  getCategory() {
     setState(() {
-      this.isLoading=true;
+      this.isLoading = true;
     });
     ApiManager().getAllCategory().then((value) {
       setState(() {
-        this.isLoading=false;
-        categories=value.data!.menuList!;
+        this.isLoading = false;
+        categories = value.data!.menuList!;
       });
     });
   }
 
   @override
   Widget build(BuildContext context) {
-
     return Container(
       decoration: BoxDecoration(color: Colors.blueGrey),
       child: SingleChildScrollView(
@@ -75,66 +71,68 @@ class _HomeScreenState extends State<HomeScreen> {
             const SizedBox(
               height: 40,
             ),
-
           ],
         ),
       ),
     );
   }
 
-  _row_slide(double height,String text){
-    return
-      Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            children: [
-              Container(
-                width: 350,
-                height: height,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color: Colors.blueGrey.shade700),
-                child: Center(
-                  child: Text(
-                    text,
-                    style: TextStyle(color: Colors.white, fontSize: 17),
-                  ),
+  _row_slide(double height, String text) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          children: [
+            Container(
+              width: 350,
+              height: height,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  color: Colors.blueGrey.shade700),
+              child: Center(
+                child: Text(
+                  text,
+                  style: TextStyle(color: Colors.white, fontSize: 17),
                 ),
               ),
-              SizedBox(width: 20,),
-              Container(
-                width: 350,
-                height: height,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color: Colors.blueGrey.shade700),
-                child: Center(
-                  child: Text(
-                    text,
-                    style: TextStyle(color: Colors.white, fontSize: 17),
-                  ),
+            ),
+            SizedBox(
+              width: 20,
+            ),
+            Container(
+              width: 350,
+              height: height,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  color: Colors.blueGrey.shade700),
+              child: Center(
+                child: Text(
+                  text,
+                  style: TextStyle(color: Colors.white, fontSize: 17),
                 ),
               ),
-              SizedBox(width: 20,),
-              Container(
-                width: 350,
-                height: height,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color: Colors.blueGrey.shade700),
-                child: Center(
-                  child: Text(
-                    text,
-                    style: TextStyle(color: Colors.white, fontSize: 17),
-                  ),
+            ),
+            SizedBox(
+              width: 20,
+            ),
+            Container(
+              width: 350,
+              height: height,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  color: Colors.blueGrey.shade700),
+              child: Center(
+                child: Text(
+                  text,
+                  style: TextStyle(color: Colors.white, fontSize: 17),
                 ),
-              )
-            ],
-          ),
+              ),
+            )
+          ],
         ),
-      );
+      ),
+    );
   }
 
   //Grind
@@ -157,7 +155,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 mainAxisSpacing: 5,
                 crossAxisSpacing: 5,
                 children: List.generate(categories.length, (index) {
-                  var category=categories[index];
+                  var category = categories[index];
                   return Container(
                     decoration: BoxDecoration(
                       color: Colors.blueGrey,
@@ -167,16 +165,17 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          // Icon(
-                          //   cate
-                          //   color: Colors.white,
-                          //   size: 30,
-                          // ),
-                          SizedBox(height: 10,),
+                          SizedBox(
+                            height: 10,
+                          ),
                           Text(
-                            lang=="en_EN"? category.name!:category.nameKh!,
-                            style: TextStyle(fontSize: 15, color: Colors.white,fontFamily:KhmerFonts.content,
-                              package: 'khmer_fonts',),
+                            "english".tr() == "English" ? category.name! : category.nameKh!,
+                            style: TextStyle(
+                              fontSize: 15,
+                              color: Colors.white,
+                              fontFamily: KhmerFonts.content,
+                              package: 'khmer_fonts',
+                            ),
                           )
                         ],
                       ),
@@ -188,7 +187,8 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
- //end grid
+
+  //end grid
   _row(String text, String num) {
     //Row
     return Padding(
@@ -208,4 +208,5 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
     );
-  } }
+  }
+}

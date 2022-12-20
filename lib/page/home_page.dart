@@ -27,6 +27,7 @@ class _HomePageState extends State<HomePage> {
   final LocalStorage storage = new LocalStorage('mobile_token_app');
   bool _change = false;
 
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -50,6 +51,8 @@ class _HomePageState extends State<HomePage> {
 
                       setState(() {
                         _change = !_change;
+                        _pageController.animateToPage(selected_page,
+                            duration: Duration(milliseconds: 400), curve: Curves.easeInOut);
                       });
                     },
                     icon: Icon(Icons.language)),
@@ -100,7 +103,6 @@ class _HomePageState extends State<HomePage> {
       bottomNavigationBar: _buildBottom,
     );
   }
-
   get _buildBottom {
     return BottomNavigationBar(
       items: [
