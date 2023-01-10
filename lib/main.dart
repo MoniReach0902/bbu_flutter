@@ -1,6 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:example1/fcm/get_fcm.dart';
+import 'package:example1/local_notification/local_notification.dart';
 import 'package:example1/page/home_page.dart';
 import 'package:example1/screen/splash_screen.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -10,7 +13,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 //   runApp(const MyApp());
 // }
 
-void main() async {
+Future<void> main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -47,6 +50,11 @@ class _MyAppState extends State<MyApp> {
       locale: context.locale,
       home:  SplashScreenApp(),
     );
+
+
+    // return MaterialApp(
+    //   home: MyHomePage(title: "Notification Testing",),
+    // );
   }
 }
 
@@ -71,25 +79,19 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
 
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
+  Future<void> _incrementCounter()  async {
+    String? fcmKey = await getFcmToken();
+    print('FCM Key : $fcmKey');
+
   }
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
+    LocalNotification.initialize();
+    // For Forground State
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      LocalNotification.showNotification(message);
+    });
     return Scaffold(
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by

@@ -1,13 +1,17 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:example1/apis/api_manager.dart';
+import 'package:example1/fcm/get_fcm.dart';
 import 'package:example1/model/req/login_req.dart';
 import 'package:example1/page/home_page.dart';
 import 'package:example1/screen/register_screen.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:khmer_fonts/khmer_fonts.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:localstorage/localstorage.dart';
+
+import '../local_notification/local_notification.dart';
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
 
@@ -26,6 +30,11 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    LocalNotification.initialize();
+    // For Forground State
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      LocalNotification.showNotification(message);
+    });
     return Scaffold(
       body: Form(
         key: _formKey,
@@ -137,8 +146,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     )
                 ),
                 child: TextButton(
-                  onPressed: () {
+                  onPressed: ()  async {
                     login();
+                    String? fcmKey = await getFcmToken();
+                    print('FCM Key : $fcmKey');
                   },
                   child: Text(
                     "login".tr(),

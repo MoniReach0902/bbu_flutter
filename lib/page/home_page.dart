@@ -9,6 +9,8 @@ import 'package:example1/widget/drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:localstorage/localstorage.dart';
 
+import '../fcm/get_fcm.dart';
+
 class HomePage extends StatefulWidget {
   HomePage({Key? key}) : super(key: key);
 
@@ -94,8 +96,10 @@ class _HomePageState extends State<HomePage> {
           children: _listScreen,
           controller: _pageController,
           onPageChanged: (index) {
-            setState(() {
+            setState(() async {
               selected_page = index;
+              // String? fcmKey = await getFcmToken();
+              // print('FCM Key : $fcmKey');
             });
           },
         ),
