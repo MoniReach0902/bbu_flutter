@@ -22,7 +22,7 @@ class LocalNotification {
   static void showNotification(RemoteMessage message) {
     final NotificationDetails notiDetails = NotificationDetails(
       android: AndroidNotificationDetails(
-        'com.example.push_notification',
+        'com.example.exmaple1',
         'push_notification',
         importance: Importance.max,
         priority: Priority.high,
