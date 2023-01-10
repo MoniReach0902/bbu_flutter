@@ -27,6 +27,11 @@ class _LoginScreenState extends State<LoginScreen> {
   bool isLoading = false;
   var phone='070902209';
   var pass='12345678';
+  Future<void> _incrementCounter()  async {
+    String? fcmKey = await getFcmToken();
+    print('FCM Key : $fcmKey');
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -146,10 +151,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     )
                 ),
                 child: TextButton(
-                  onPressed: ()  async {
+                  onPressed: ()   {
                     login();
-                    String? fcmKey = await getFcmToken();
-                    print('FCM Key : $fcmKey');
+                    _incrementCounter();
                   },
                   child: Text(
                     "login".tr(),

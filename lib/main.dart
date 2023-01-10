@@ -40,6 +40,7 @@ class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
@@ -52,9 +53,9 @@ class _MyAppState extends State<MyApp> {
     );
 
 
-    // return MaterialApp(
-    //   home: MyHomePage(title: "Notification Testing",),
-    // );
+    return MaterialApp(
+      home: MyHomePage(title: "Notification Testing",),
+    );
   }
 }
 
@@ -79,7 +80,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
 
-  Future<void> _incrementCounter()  async {
+   Future<void> _incrementCounter()  async {
     String? fcmKey = await getFcmToken();
     print('FCM Key : $fcmKey');
 
